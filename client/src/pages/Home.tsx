@@ -10,7 +10,7 @@
 
 import { useState, useRef } from "react";
 import { MapView } from "@/components/Map";
-import { ChevronDown } from "lucide-react";
+
 
 const CDN = "https://d2xsxph8kpxj0f.cloudfront.net/310519663410806327/JA5n7xr5WMnAweWKrFvH5o";
 
@@ -34,7 +34,14 @@ const ASSETS: Record<string, string> = {
   "39-60":  `${CDN}/39-60_9f5cc139.webp`,
   "39-62":  `${CDN}/39-62_682fafd3.webp`,
   "39-64":  `${CDN}/39-64_e7f290b3.webp`,
-  "39-87":  `${CDN}/39-87_44f03d8c.webp`,
+  // 新しい写真（ユーザー提供）
+  "photo1": `${CDN}/photo1_2bfef1e8.png`,
+  "photo2": `${CDN}/photo2_3aa4469e.png`,
+  "photo3": `${CDN}/photo3_e81c79a5.png`,
+  "photo6": `${CDN}/photo6_ec31b51d.png`,
+  "photo7": `${CDN}/photo7_5a4d141c.png`,
+  "photo8": `${CDN}/photo8_286888a1.png`,
+  "photo9": `${CDN}/photo9_194fa7db.png`,
   // こだわりセクション
   "39-106": `${CDN}/39-106_483b2125.webp`,
   "39-111": `${CDN}/39-111_4a617ff1.webp`,
@@ -157,17 +164,17 @@ function SectionDivider() {
 
 // Voice_S SNS口コミ写真グリッド
 const voiceImages = [
-  // 行1 (top-0)
-  { id: "64-21", alt: "口コミ写真1" },
-  { id: "64-26", alt: "口コミ写真2" },
-  { id: "64-19", alt: "口コミ写真3" },
-  { id: "64-20", alt: "口コミ写真4" },
-  // 行2 (top-172px)
-  { id: "64-27", alt: "口コミ写真5" },
-  { id: "64-25", alt: "口コミ写真6" },
-  { id: "64-17", alt: "口コミ写真7" },
+  // 行1 (左上から順に新しい写真)
+  { id: "photo1", alt: "施術写真1" },
+  { id: "photo2", alt: "施術写真2" },
+  { id: "photo3", alt: "施術写真3" },
+  { id: "photo6", alt: "施術写真4" },
+  // 行2
+  { id: "photo7", alt: "施術写真5" },
+  { id: "photo8", alt: "施術写真6" },
+  { id: "photo9", alt: "施術写真7" },
   { id: "64-22", alt: "口コミ写真8" },
-  // 行3 (top-344px)
+  // 行3
   { id: "64-24", alt: "口コミ写真9" },
   { id: "64-16", alt: "口コミ写真10" },
   { id: "64-23", alt: "口コミ写真11" },
@@ -188,7 +195,7 @@ const baImages = [
 // Home page component
 function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
   const mapRef = useRef<google.maps.Map | null>(null);
-  const [reviewsOpen, setReviewsOpen] = useState(false);
+
 
   const handleMapReady = (map: google.maps.Map) => {
     mapRef.current = map;
@@ -276,43 +283,24 @@ function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
           </div>
         </section>
 
-        {/* ===== 口コミ ===== */}
+                {/* ===== 口コミ ===== */}
         <section className="w-full px-4 py-8">
           <SectionDivider />
           <SectionHeading title="口コミ" />
           <SubHeading title="ホットペッパーの口コミをご覧ください" />
           <BodyText>当店は整体サロンです。ホットペッパーで沢山の口コミを頂いていますのでご確認ください。</BodyText>
 
-          {/* アコーディオン「口コミを見る」ボタン - 1つだけ */}
+          {/* 「口コミを見る」ボタン - ホットペッパービューティー口コミページへ直接リンク */}
           <div className="mt-5 flex justify-center">
-            <button
-              onClick={() => setReviewsOpen(!reviewsOpen)}
+            <a
+              href={REVIEW_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-white border border-[#acacac] rounded-lg px-10 py-2 text-[#898989] text-[17px] font-bold hover:bg-gray-50 transition-colors"
             >
               口コミを見る
-              <ChevronDown
-                size={20}
-                className={`transition-transform ${reviewsOpen ? "rotate-180" : ""}`}
-              />
-            </button>
+            </a>
           </div>
-
-          {/* アコーディオンコンテンツ */}
-          {reviewsOpen && (
-            <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
-              <p className="text-[#736357] text-base mb-4">
-                ホットペッパービューティーの口コミをご確認ください。
-              </p>
-              <a
-                href={REVIEW_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block bg-[#bf1391] text-white font-semibold px-6 py-2 rounded hover:opacity-90 transition-opacity"
-              >
-                ホットペッパービューティーで口コミを見る
-              </a>
-            </div>
-          )}
         </section>
 
         {/* ===== ３つのこだわり ===== */}
@@ -482,64 +470,58 @@ function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
           <CTABlock onNavigate={onNavigate} />
         </div>
 
-        {/* ===== 当店のダイエットが成功する理由 ===== */}
+                {/* ===== 当店のダイエットが成功する理由 ===== */}
         <section className="w-full px-4 py-8">
           <h2 className="text-[#f39f88] text-[32px] font-semibold mb-6">当店のダイエットが成功する理由</h2>
 
-          {/* 理由1 */}
-          <div className="mb-8">
-            <div className="flex items-start gap-3 mb-3">
-              <img src={ASSETS["39-251"]} alt="理由1" className="w-16 h-16 object-contain flex-shrink-0" />
-              <div>
-                <SubHeading title="理由１：太った理由を徹底分析" />
-              </div>
+          {/* 理由１ - outline枠線付き（Figmaデザイン準拠） */}
+          <div className="mb-6 rounded border-2 border-neutral-200 overflow-hidden">
+            <div className="px-5 pt-6 pb-2">
+              <p className="text-[#f39f88] text-[26px] font-semibold">理由１：太った理由を徹底分析</p>
             </div>
-            <BodyText>
-              肥満DNA検査による自分のスーパーフード知ることができ、分子栄養学を用いて体質を考慮した効率的なダイエットメニューを作成します。
-            </BodyText>
+            <div className="flex justify-center px-4 py-3">
+              <img src={ASSETS["39-251"]} alt="理由１カウンセリング写真" className="w-[400px] max-w-full h-auto object-cover" />
+            </div>
+            <div className="px-5 pb-6">
+              <BodyText>肥満DNA検査による自分のスーパーフード知ることができ、分子栄養学を用いて体質を考慮した効率的なダイエットメニューを作成します。</BodyText>
+            </div>
           </div>
 
-          {/* 理由2 */}
-          <div className="mb-8">
-            <div className="flex items-start gap-3 mb-3">
-              <img src={ASSETS["39-256"]} alt="理由2" className="w-16 h-16 object-contain flex-shrink-0" />
-              <div>
-                <SubHeading title="理由２：痩身整体で生涯太りにくい体質作り" />
-              </div>
+          {/* 理由２ - 枠線なし */}
+          <div className="mb-6 rounded overflow-hidden">
+            <div className="px-5 pt-6 pb-2">
+              <p className="text-[#f39f88] text-[26px] font-semibold">理由２：痩身整体で生涯太りにくい体質作り</p>
             </div>
-            <BodyText>
-              主に姿勢矯正と骨盤矯正を行なって、痩せやすい体づくりをしていきます。
-            </BodyText>
+            <div className="flex justify-center px-4 py-3">
+              <img src={ASSETS["39-256"]} alt="理由２施術写真" className="w-[400px] max-w-full h-auto object-cover" />
+            </div>
+            <div className="px-5 pb-6">
+              <BodyText>主に姿勢矯正と骨盤矯正を行なって、痩せやすい体づくりをしていきます。</BodyText>
+            </div>
           </div>
 
-          {/* 理由3 */}
-          <div className="mb-8">
-            <div className="flex items-start gap-3 mb-3">
-              <img src={ASSETS["39-261"]} alt="理由3" className="w-16 h-16 object-contain flex-shrink-0" />
-              <div>
-                <SubHeading title="理由３：マンツーマン食事サポート" />
-              </div>
+          {/* 理由３ - 枠線なし */}
+          <div className="mb-6 rounded overflow-hidden">
+            <div className="px-5 pt-6 pb-2">
+              <p className="text-[#f39f88] text-[26px] font-semibold">理由３：マンツーマン食事サポート</p>
             </div>
-            <BodyText>
-              LINEでサポート！楽しく続く食習慣を形成していきます。
-            </BodyText>
+            <div className="flex justify-center px-4 py-3">
+              <img src={ASSETS["39-261"]} alt="理由３食事写真" className="w-[400px] max-w-full h-auto object-cover" />
+            </div>
+            <div className="px-5 pb-6">
+              <BodyText>LINEでサポート！楽しく続く食習慣を形成していきます。</BodyText>
+            </div>
           </div>
 
-          {/* 理由4 */}
-          <div className="mb-8">
-            <div className="flex items-start gap-3 mb-3">
-              <img src={ASSETS["62-3"]} alt="理由4" className="w-16 h-16 object-contain flex-shrink-0" />
-              <div>
-                <SubHeading title="理由4：国家資格の柔道整復師を所有。だから安心！" />
-              </div>
+          {/* 理由４ - 枠線なし */}
+          <div className="mb-6">
+            <p className="text-[#f39f88] text-[26px] font-semibold mb-4">理由４：国家資格の柔道整復師を所有。だから安心！</p>
+            <div className="flex justify-center py-3">
+              <img src={ASSETS["62-3"]} alt="理由４国家資格" className="w-[400px] max-w-full h-auto object-cover" />
             </div>
-            <BodyText>
-              体の構造を知り尽くした、プロの整体師の証である「国家資格：柔道整復師」。<br />
-              安心してダイエットを任せることができます。
-            </BodyText>
+            <BodyText>体の構造を知り尽くした、プロの整体師の証である「国家資格：柔道整復師」。<br />安心してダイエットを任せることができます。</BodyText>
           </div>
         </section>
-
         {/* ===== CTA 3 ===== */}
         <div className="px-4">
           <CTABlock onNavigate={onNavigate} />
