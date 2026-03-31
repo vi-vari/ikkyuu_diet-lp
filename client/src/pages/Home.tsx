@@ -8,8 +8,8 @@
  * Map address: 兵庫県西宮市門戸東町２－４ファミリアル門戸103
  */
 
-import { useState, useRef } from "react";
-import { MapView } from "@/components/Map";
+import { useState } from "react";
+// MapView removed: replaced with Google Maps embed iframe for GitHub Pages compatibility
 
 
 const CDN = "https://d2xsxph8kpxj0f.cloudfront.net/310519663410806327/JA5n7xr5WMnAweWKrFvH5o";
@@ -208,27 +208,7 @@ const baImages = [
 
 // Home page component
 function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
-  const mapRef = useRef<google.maps.Map | null>(null);
-  const [reviewOpen, setReviewOpen] = useState(false);
-
-  const handleMapReady = (map: google.maps.Map) => {
-    mapRef.current = map;
-    const address = "兵庫県西宮市門戸東町２－４ファミリアル門戸103";
-    const geocoder = new window.google.maps.Geocoder();
-    geocoder.geocode({ address }, (results, status) => {
-      if (status === "OK" && results && results[0]) {
-        const location = results[0].geometry.location;
-        map.setCenter(location);
-        map.setZoom(16);
-        new window.google.maps.marker.AdvancedMarkerElement({
-          map,
-          position: location,
-          title: "美容整体サロン vivari",
-        });
-      }
-    });
-  };
-
+   const [reviewOpen, setReviewOpen] = useState(false);
   return (
     <div className="min-h-screen bg-white" style={{ fontFamily: "'Noto Sans JP', sans-serif" }}>
       <div className="max-w-[700px] mx-auto">
@@ -478,13 +458,17 @@ function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
             <ListItem>現金・クレジットカード・PayPay・その他QR決済</ListItem>
           </div>
 
-          {/* Google Map - インタラクティブ（Figmaの地図画像を置き換え） */}
+          {/* Google Map - 埋め込みiFrame（GitHub Pages対応） */}
           <div className="w-full rounded overflow-hidden shadow-md">
-            <MapView
-              className="w-full h-[432px]"
-              initialCenter={{ lat: 34.7371, lng: 135.3615 }}
-              initialZoom={16}
-              onMapReady={handleMapReady}
+            <iframe
+              src="https://maps.google.com/maps?q=%E3%81%84%E3%81%A3%E3%81%8D%E3%82%85%E3%81%86%E9%8D%BC%E7%81%B8%E6%95%B4%E9%AA%A8%E9%99%A2+%E8%A5%BF%E5%AE%AE%E5%B8%82+%E9%96%80%E6%88%B8%E6%9D%B1%E7%94%BA&output=embed&z=16"
+              width="100%"
+              height="432"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="美容整体サロン vivari 地図"
             />
           </div>
         </section>
