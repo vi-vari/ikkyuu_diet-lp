@@ -2,14 +2,15 @@
  * 美容整体サロン vivari LP
  * Design: Figma 1920w light - pixel-perfect reproduction
  * Colors: #f39f88 (accent/heading), #4b4f58 (subheading), #736357 (body), #3a3a3a (dark text)
- * CTA LINE: https://lin.ee/XoPtWqp
- * CTA HPB: https://beauty.hotpepper.jp/kr/slnH000719702/
- * 口コミ: https://beauty.hotpepper.jp/kr/slnH000719702/review/
+ * CTA LINE: https://lin.ee/XoPtWqp (page navigation)
+ * CTA HPB: https://beauty.hotpepper.jp/kr/slnH000719702/ (page navigation)
+ * 口コミ: https://beauty.hotpepper.jp/kr/slnH000719702/review/ (accordion)
  * Map address: 兵庫県西宮市門戸東町２－４ファミリアル門戸103
  */
 
-import { useRef } from "react";
+import { useState, useRef } from "react";
 import { MapView } from "@/components/Map";
+import { ChevronDown } from "lucide-react";
 
 const CDN = "https://d2xsxph8kpxj0f.cloudfront.net/310519663410806327/JA5n7xr5WMnAweWKrFvH5o";
 
@@ -86,33 +87,32 @@ const LINE_URL = "https://lin.ee/XoPtWqp";
 const HPB_URL = "https://beauty.hotpepper.jp/kr/slnH000719702/";
 const REVIEW_URL = "https://beauty.hotpepper.jp/kr/slnH000719702/review/";
 
+// Page types
+type PageType = "home" | "line" | "hpb" | "reviews";
+
 // CTA Block component (reused multiple times)
-function CTABlock() {
+function CTABlock({ onNavigate }: { onNavigate: (page: PageType) => void }) {
   return (
     <div className="w-full py-8 flex flex-col items-center gap-2">
-      <a
-        href={LINE_URL}
-        target="_blank"
-        rel="noopener noreferrer"
+      <button
+        onClick={() => onNavigate("line")}
         className="flex items-center justify-center gap-3 bg-[#4dce6e] text-white font-semibold text-xl rounded-[3px] px-8 py-3 w-full max-w-[321px] hover:opacity-90 transition-opacity"
       >
         <svg className="w-6 h-6 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
           <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
         </svg>
         LINE講座をスタート
-      </a>
+      </button>
       <p className="text-[#3a3a3a] text-[15px] text-center">1週間で痩せ体質を作る無料講座をプレゼント中🎁</p>
-      <a
-        href={HPB_URL}
-        target="_blank"
-        rel="noopener noreferrer"
+      <button
+        onClick={() => onNavigate("hpb")}
         className="flex items-center justify-center gap-3 bg-[#bf1391] text-white font-semibold text-xl rounded-[3px] px-8 py-3 w-full max-w-[392px] hover:opacity-90 transition-opacity"
       >
         <svg className="w-6 h-6 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
           <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/>
         </svg>
         ホットペッパーで予約する
-      </a>
+      </button>
       <p className="text-[#3a3a3a] text-sm text-center">今すぐ予約したい方はこちらからどうぞ</p>
       <p className="text-[#3a3a3a] text-sm text-center">ダイエットカウンセリングが初回限定500円🎉</p>
     </div>
@@ -156,11 +156,6 @@ function SectionDivider() {
 }
 
 // Voice_S SNS口コミ写真グリッド
-// Figmaのコード: Container w-[680px] h-[507.50px] に 4x3 グリッド
-// 行1: 64-21, 64-26, 64-19, 64-20
-// 行2: 64-27, 64-25, 64-17, 64-22 (left-[172px] top-[172px])
-// 行3: 64-24, 64-16, 39-87(LP使用素材), 64-18 (left-0 top-[344px])
-// + 39-42, 39-48, 39-50, 39-52, 39-54, 39-56, 39-58, 39-60, 39-62, 39-64 (別のリンクグループ)
 const voiceImages = [
   // 行1 (top-0)
   { id: "64-21", alt: "口コミ写真1" },
@@ -190,8 +185,10 @@ const baImages = [
   { id: "39-32", alt: "40代② ビフォーアフター -8.1kg" },
 ];
 
-export default function Home() {
+// Home page component
+function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
   const mapRef = useRef<google.maps.Map | null>(null);
+  const [reviewsOpen, setReviewsOpen] = useState(false);
 
   const handleMapReady = (map: google.maps.Map) => {
     mapRef.current = map;
@@ -213,7 +210,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white" style={{ fontFamily: "'Noto Sans JP', sans-serif" }}>
-      {/* Max width container centered - matches Figma's ~700px content width */}
       <div className="max-w-[700px] mx-auto">
 
         {/* ===== FV (ファーストビュー) ===== */}
@@ -227,7 +223,7 @@ export default function Home() {
 
         {/* ===== CTA 1 ===== */}
         <div className="px-4">
-          <CTABlock />
+          <CTABlock onNavigate={onNavigate} />
         </div>
 
         {/* ===== B/A実績 ===== */}
@@ -264,7 +260,6 @@ export default function Home() {
 
         {/* ===== Voice_S (SNS口コミ写真グリッド) ===== */}
         <section className="w-full px-4 py-4">
-          {/* 4列グリッド - Figmaの4x3レイアウトを再現 */}
           <div className="grid grid-cols-4 gap-0.5">
             {voiceImages.map((img) => (
               <div key={img.id} className="aspect-square overflow-hidden">
@@ -288,42 +283,36 @@ export default function Home() {
           <SubHeading title="ホットペッパーの口コミをご覧ください" />
           <BodyText>当店は整体サロンです。ホットペッパーで沢山の口コミを頂いていますのでご確認ください。</BodyText>
 
-          {/* 上部「口コミを見る」ボタン */}
+          {/* アコーディオン「口コミを見る」ボタン - 1つだけ */}
           <div className="mt-5 flex justify-center">
-            <a
-              href={REVIEW_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block bg-white border border-[#acacac] rounded-lg px-10 py-2 text-[#898989] text-[17px] font-bold hover:bg-gray-50 transition-colors"
+            <button
+              onClick={() => setReviewsOpen(!reviewsOpen)}
+              className="inline-flex items-center gap-2 bg-white border border-[#acacac] rounded-lg px-10 py-2 text-[#898989] text-[17px] font-bold hover:bg-gray-50 transition-colors"
             >
-              口コミを見る ▼
-            </a>
+              口コミを見る
+              <ChevronDown
+                size={20}
+                className={`transition-transform ${reviewsOpen ? "rotate-180" : ""}`}
+              />
+            </button>
           </div>
 
-          {/* 口コミ写真グリッド (44-285〜292 施術写真) */}
-          <div className="mt-6 grid grid-cols-2 gap-2">
-            {["44-285","44-286","44-287","44-288","44-291","44-292"].map((id) => (
-              <div key={id} className="overflow-hidden rounded">
-                <img
-                  src={ASSETS[id]}
-                  alt="施術写真"
-                  className="w-full h-auto object-cover"
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* 下部「口コミを見る」ボタン */}
-          <div className="mt-6 flex justify-center">
-            <a
-              href={REVIEW_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block bg-white border border-[#acacac] rounded-lg px-10 py-2 text-[#898989] text-[17px] font-bold hover:bg-gray-50 transition-colors"
-            >
-              口コミを見る ▼
-            </a>
-          </div>
+          {/* アコーディオンコンテンツ */}
+          {reviewsOpen && (
+            <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+              <p className="text-[#736357] text-base mb-4">
+                ホットペッパービューティーの口コミをご確認ください。
+              </p>
+              <a
+                href={REVIEW_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block bg-[#bf1391] text-white font-semibold px-6 py-2 rounded hover:opacity-90 transition-opacity"
+              >
+                ホットペッパービューティーで口コミを見る
+              </a>
+            </div>
+          )}
         </section>
 
         {/* ===== ３つのこだわり ===== */}
@@ -490,7 +479,7 @@ export default function Home() {
 
         {/* ===== CTA 2 ===== */}
         <div className="px-4">
-          <CTABlock />
+          <CTABlock onNavigate={onNavigate} />
         </div>
 
         {/* ===== 当店のダイエットが成功する理由 ===== */}
@@ -498,14 +487,12 @@ export default function Home() {
           <h2 className="text-[#f39f88] text-[32px] font-semibold mb-6">当店のダイエットが成功する理由</h2>
 
           {/* 理由1 */}
-          <div className="border-2 border-neutral-200 rounded p-5 mb-5">
-            <h3 className="text-[#f39f88] text-[26px] font-semibold mb-4">理由１：太った理由を徹底分析</h3>
-            <div className="flex justify-center mb-4">
-              <img
-                src={ASSETS["39-251"]}
-                alt="太った理由を徹底分析"
-                className="w-full max-w-[400px] h-auto object-cover rounded"
-              />
+          <div className="mb-8">
+            <div className="flex items-start gap-3 mb-3">
+              <img src={ASSETS["39-251"]} alt="理由1" className="w-16 h-16 object-contain flex-shrink-0" />
+              <div>
+                <SubHeading title="理由１：太った理由を徹底分析" />
+              </div>
             </div>
             <BodyText>
               肥満DNA検査による自分のスーパーフード知ることができ、分子栄養学を用いて体質を考慮した効率的なダイエットメニューを作成します。
@@ -513,14 +500,12 @@ export default function Home() {
           </div>
 
           {/* 理由2 */}
-          <div className="border-2 border-neutral-200 rounded p-5 mb-5">
-            <h3 className="text-[#f39f88] text-[26px] font-semibold mb-4">理由２：痩身整体で生涯太りにくい体質作り</h3>
-            <div className="flex justify-center mb-4">
-              <img
-                src={ASSETS["39-256"]}
-                alt="痩身整体で体質作り"
-                className="w-full max-w-[400px] h-auto object-cover rounded"
-              />
+          <div className="mb-8">
+            <div className="flex items-start gap-3 mb-3">
+              <img src={ASSETS["39-256"]} alt="理由2" className="w-16 h-16 object-contain flex-shrink-0" />
+              <div>
+                <SubHeading title="理由２：痩身整体で生涯太りにくい体質作り" />
+              </div>
             </div>
             <BodyText>
               主に姿勢矯正と骨盤矯正を行なって、痩せやすい体づくりをしていきます。
@@ -528,14 +513,12 @@ export default function Home() {
           </div>
 
           {/* 理由3 */}
-          <div className="border-2 border-neutral-200 rounded p-5 mb-5">
-            <h3 className="text-[#f39f88] text-[26px] font-semibold mb-4">理由３：マンツーマン食事サポート</h3>
-            <div className="flex justify-center mb-4">
-              <img
-                src={ASSETS["39-261"]}
-                alt="マンツーマン食事サポート"
-                className="w-full max-w-[400px] h-auto object-cover rounded"
-              />
+          <div className="mb-8">
+            <div className="flex items-start gap-3 mb-3">
+              <img src={ASSETS["39-261"]} alt="理由3" className="w-16 h-16 object-contain flex-shrink-0" />
+              <div>
+                <SubHeading title="理由３：マンツーマン食事サポート" />
+              </div>
             </div>
             <BodyText>
               LINEでサポート！楽しく続く食習慣を形成していきます。
@@ -543,14 +526,12 @@ export default function Home() {
           </div>
 
           {/* 理由4 */}
-          <div className="p-5 mb-5">
-            <h3 className="text-[#f39f88] text-[26px] font-semibold mb-4">理由4：国家資格の柔道整復師を所有。だから安心！</h3>
-            <div className="flex justify-center mb-4">
-              <img
-                src={ASSETS["62-3"]}
-                alt="国家資格"
-                className="w-full max-w-[400px] h-auto object-cover rounded"
-              />
+          <div className="mb-8">
+            <div className="flex items-start gap-3 mb-3">
+              <img src={ASSETS["62-3"]} alt="理由4" className="w-16 h-16 object-contain flex-shrink-0" />
+              <div>
+                <SubHeading title="理由4：国家資格の柔道整復師を所有。だから安心！" />
+              </div>
             </div>
             <BodyText>
               体の構造を知り尽くした、プロの整体師の証である「国家資格：柔道整復師」。<br />
@@ -559,22 +540,90 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ===== BOOK特典 2 ===== */}
-        <section className="w-full px-4 py-6 flex justify-center">
-          <img
-            src={ASSETS["44-282"]}
-            alt="BOOK特典 1週間で痩せ体質になるダイエット"
-            className="w-[280px] h-auto object-contain"
-            style={{ transform: "rotate(3deg)" }}
-          />
-        </section>
-
-        {/* ===== CTA 3 (最終) ===== */}
-        <div className="px-4 pb-12">
-          <CTABlock />
+        {/* ===== CTA 3 ===== */}
+        <div className="px-4">
+          <CTABlock onNavigate={onNavigate} />
         </div>
 
+        {/* Footer */}
+        <footer className="w-full px-4 py-8 border-t border-gray-200 text-center">
+          <p className="text-[#736357] text-sm">© 2026 美容整体サロン vivari. All rights reserved.</p>
+        </footer>
       </div>
     </div>
+  );
+}
+
+// LINE page component
+function LinePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
+  return (
+    <div className="min-h-screen bg-white flex flex-col" style={{ fontFamily: "'Noto Sans JP', sans-serif" }}>
+      <div className="max-w-[700px] mx-auto w-full flex-1 px-4 py-8">
+        <button
+          onClick={() => onNavigate("home")}
+          className="mb-6 text-[#4dce6e] font-semibold hover:underline"
+        >
+          ← ホームに戻る
+        </button>
+        <h1 className="text-[#f39f88] text-3xl font-bold mb-4">LINE講座</h1>
+        <p className="text-[#736357] text-base mb-6">
+          1週間で痩せ体質を作る無料講座をLINEでお届けします。
+        </p>
+        <a
+          href={LINE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block bg-[#4dce6e] text-white font-semibold px-8 py-3 rounded hover:opacity-90 transition-opacity"
+        >
+          LINEで講座を受け取る
+        </a>
+      </div>
+    </div>
+  );
+}
+
+// HPB page component
+function HpbPage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
+  return (
+    <div className="min-h-screen bg-white flex flex-col" style={{ fontFamily: "'Noto Sans JP', sans-serif" }}>
+      <div className="max-w-[700px] mx-auto w-full flex-1 px-4 py-8">
+        <button
+          onClick={() => onNavigate("home")}
+          className="mb-6 text-[#bf1391] font-semibold hover:underline"
+        >
+          ← ホームに戻る
+        </button>
+        <h1 className="text-[#f39f88] text-3xl font-bold mb-4">ホットペッパービューティーで予約</h1>
+        <p className="text-[#736357] text-base mb-6">
+          ホットペッパービューティーから予約できます。
+        </p>
+        <a
+          href={HPB_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block bg-[#bf1391] text-white font-semibold px-8 py-3 rounded hover:opacity-90 transition-opacity"
+        >
+          ホットペッパービューティーで予約する
+        </a>
+      </div>
+    </div>
+  );
+}
+
+// Main App component
+export default function Home() {
+  const [currentPage, setCurrentPage] = useState<PageType>("home");
+
+  const handleNavigate = (page: PageType) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  return (
+    <>
+      {currentPage === "home" && <HomePage onNavigate={handleNavigate} />}
+      {currentPage === "line" && <LinePage onNavigate={handleNavigate} />}
+      {currentPage === "hpb" && <HpbPage onNavigate={handleNavigate} />}
+    </>
   );
 }
