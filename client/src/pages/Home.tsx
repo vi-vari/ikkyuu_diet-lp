@@ -99,7 +99,7 @@ const ASSETS: Record<string, string> = {
 const LINE_URL = "https://lin.ee/XoPtWqp";
 const HPB_URL = "https://beauty.hotpepper.jp/kr/slnH000719702/";
 const IKKYUU_URL = "https://beauty.hotpepper.jp/kr/slnH000719702/";
-const REVIEW_URL = "https://beauty.hotpepper.jp/kr/slnH000719702/review/";
+
 
 // Page types
 type PageType = "home" | "line" | "hpb";
@@ -208,7 +208,7 @@ const baImages = [
 
 // Home page component
 function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
-   const [reviewOpen, setReviewOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-white" style={{ fontFamily: "'Noto Sans JP', sans-serif" }}>
       <div className="max-w-[700px] mx-auto">
@@ -273,49 +273,7 @@ function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
             ))}
           </div>
 
-        </section>
-
-        {/* ===== 口コミ ===== */}
-        <section className="w-full px-4 py-8">
-          <SectionDivider />
-          <SectionHeading title="口コミ" />
-          <SubHeading title="ホットペッパーの口コミをご覧ください" />
-          <BodyText>当店は整体サロンです。ホットペッパーで沢山の口コミを頂いていますのでご確認ください。</BodyText>
-
-          {/* 「口コミを見る」ボタン - アコーディオン展開 */}
-          <div className="mt-5 flex justify-center">
-            <button
-              onClick={() => setReviewOpen(!reviewOpen)}
-              className="inline-flex items-center gap-2 bg-white border border-[#acacac] rounded-lg px-10 py-2 text-[#898989] text-[17px] font-bold hover:bg-gray-50 transition-colors"
-            >
-              {reviewOpen ? "口コミを閉じる ▲" : "口コミを見る ▼"}
-            </button>
-          </div>
-
-          {/* アコーディオン展開エリア */}
-          {reviewOpen && (
-            <div className="mt-4 w-full rounded-lg overflow-hidden border border-neutral-200 shadow-sm">
-              <div className="bg-gray-50 px-4 py-2 flex items-center justify-between border-b border-neutral-200">
-                <span className="text-sm text-[#736357]">ホットペッパービューティー 口コミページ</span>
-                <a
-                  href={REVIEW_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs text-[#bf1391] hover:underline"
-                >
-                  別タブで開く ↗
-                </a>
-              </div>
-              <iframe
-                src={REVIEW_URL}
-                title="ホットペッパービューティー 口コミ"
-                className="w-full"
-                style={{ height: "600px", border: "none" }}
-                loading="lazy"
-              />
-            </div>
-          )}
-        </section>
+         </section>
 
         {/* ===== ３つのこだわり ===== */}
         <section className="w-full px-4 py-8">
