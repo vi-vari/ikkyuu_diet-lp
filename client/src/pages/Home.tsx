@@ -42,8 +42,10 @@ const ASSETS: Record<string, string> = {
   "photo7": `${CDN}/photo7_5a4d141c.png`,
   "photo8": `${CDN}/photo8_286888a1.png`,
   "photo9": `${CDN}/photo9_194fa7db.png`,
-  // ２ショット写真（row3, col3）
+  // ２ショット写真（row2, col4 = 右端真ん中）
   "photo2shot": `${CDN}/２ショット_f3f1a6ef.png`,
+  // 新しい２ショット写真（row2, col4に使用）
+  "photo2shot2": `https://d2xsxph8kpxj0f.cloudfront.net/310519663410806327/JA5n7xr5WMnAweWKrFvH5o/２ショット_6c446dbb.png`,
   // こだわりセクション
   "39-106": `${CDN}/39-106_483b2125.webp`,
   "39-111": `${CDN}/39-111_4a617ff1.webp`,
@@ -96,6 +98,7 @@ const ASSETS: Record<string, string> = {
 
 const LINE_URL = "https://lin.ee/XoPtWqp";
 const HPB_URL = "https://beauty.hotpepper.jp/kr/slnH000719702/";
+const IKKYUU_URL = "https://beauty.hotpepper.jp/kr/slnH000719702/";
 const REVIEW_URL = "https://beauty.hotpepper.jp/kr/slnH000719702/review/";
 
 // Page types
@@ -115,15 +118,17 @@ function CTABlock({ onNavigate }: { onNavigate: (page: PageType) => void }) {
         LINE講座をスタート
       </button>
       <p className="text-[#3a3a3a] text-[15px] text-center">1週間で痩せ体質を作る無料講座をプレゼント中🎁</p>
-      <button
-        onClick={() => onNavigate("hpb")}
+      <a
+        href={HPB_URL}
+        target="_blank"
+        rel="noopener noreferrer"
         className="flex items-center justify-center gap-3 bg-[#bf1391] text-white font-semibold text-xl rounded-[3px] px-8 py-3 w-full max-w-[392px] hover:opacity-90 transition-opacity"
       >
         <svg className="w-6 h-6 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
           <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/>
         </svg>
         ホットペッパーで予約する
-      </button>
+      </a>
       <p className="text-[#3a3a3a] text-sm text-center">今すぐ予約したい方はこちらからどうぞ</p>
       <p className="text-[#3a3a3a] text-sm text-center">ダイエットカウンセリングが初回限定500円🎉</p>
     </div>
@@ -168,8 +173,8 @@ function SectionDivider() {
 
 // Voice_S SNS口コミ写真グリッド
 // 行1: photo1, photo2, photo3, photo6
-// 行2: photo7, photo8, photo9, 64-22
-// 行3: 64-24, 64-16, photo2shot(２ショット), 64-18
+// 行2: photo7, photo8, photo9, photo2shot2(新しい２ショット=右端真ん中)
+// 行3: 64-24, 64-16, photo2shot(旧２ショット), 64-18
 const voiceImages = [
   // 行1 (左上から順に新しい写真)
   { id: "photo1", alt: "施術写真1" },
@@ -180,11 +185,11 @@ const voiceImages = [
   { id: "photo7", alt: "施術写真5" },
   { id: "photo8", alt: "施術写真6" },
   { id: "photo9", alt: "施術写真7" },
-  { id: "64-22", alt: "口コミ写真8" },
+  { id: "photo2shot2", alt: "２ショット写真" },
   // 行3
   { id: "64-24", alt: "口コミ写真9" },
   { id: "64-16", alt: "口コミ写真10" },
-  { id: "photo2shot", alt: "２ショット写真" },
+  { id: "photo2shot", alt: "２ショット写真（旧）" },
   { id: "64-18", alt: "口コミ写真12" },
 ];
 
