@@ -2,8 +2,8 @@
  * 美容整体サロン vivari LP
  * Design: Figma 1920w light - pixel-perfect reproduction
  * Colors: #f39f88 (accent/heading), #4b4f58 (subheading), #736357 (body), #3a3a3a (dark text)
- * CTA LINE: https://lin.ee/XoPtWqp (page navigation)
- * CTA HPB: https://beauty.hotpepper.jp/kr/slnH000719702/ (page navigation)
+ * CTA LINE: https://lin.ee/XoPtWqp (QR code page)
+ * CTA HPB: https://beauty.hotpepper.jp/kr/slnH000719702/ (iframe page)
  * 口コミ: https://beauty.hotpepper.jp/kr/slnH000719702/review/ (accordion)
  * Map address: 兵庫県西宮市門戸東町２－４ファミリアル門戸103
  */
@@ -42,6 +42,8 @@ const ASSETS: Record<string, string> = {
   "photo7": `${CDN}/photo7_5a4d141c.png`,
   "photo8": `${CDN}/photo8_286888a1.png`,
   "photo9": `${CDN}/photo9_194fa7db.png`,
+  // ２ショット写真（row3, col3）
+  "photo2shot": `${CDN}/２ショット_f3f1a6ef.png`,
   // こだわりセクション
   "39-106": `${CDN}/39-106_483b2125.webp`,
   "39-111": `${CDN}/39-111_4a617ff1.webp`,
@@ -88,6 +90,8 @@ const ASSETS: Record<string, string> = {
   "64-25":  `${CDN}/64-25_73392cb7.webp`,
   "64-26":  `${CDN}/64-26_e231e944.webp`,
   "64-27":  `${CDN}/64-27_d841e149.webp`,
+  // LINE QRコード
+  "line-qr": `${CDN}/line-qr_72289f0c.png`,
 };
 
 const LINE_URL = "https://lin.ee/XoPtWqp";
@@ -95,7 +99,7 @@ const HPB_URL = "https://beauty.hotpepper.jp/kr/slnH000719702/";
 const REVIEW_URL = "https://beauty.hotpepper.jp/kr/slnH000719702/review/";
 
 // Page types
-type PageType = "home" | "line" | "hpb" | "reviews";
+type PageType = "home" | "line" | "hpb";
 
 // CTA Block component (reused multiple times)
 function CTABlock({ onNavigate }: { onNavigate: (page: PageType) => void }) {
@@ -163,6 +167,9 @@ function SectionDivider() {
 }
 
 // Voice_S SNS口コミ写真グリッド
+// 行1: photo1, photo2, photo3, photo6
+// 行2: photo7, photo8, photo9, 64-22
+// 行3: 64-24, 64-16, photo2shot(２ショット), 64-18
 const voiceImages = [
   // 行1 (左上から順に新しい写真)
   { id: "photo1", alt: "施術写真1" },
@@ -177,7 +184,7 @@ const voiceImages = [
   // 行3
   { id: "64-24", alt: "口コミ写真9" },
   { id: "64-16", alt: "口コミ写真10" },
-  { id: "64-23", alt: "口コミ写真11" },
+  { id: "photo2shot", alt: "２ショット写真" },
   { id: "64-18", alt: "口コミ写真12" },
 ];
 
@@ -195,7 +202,7 @@ const baImages = [
 // Home page component
 function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
   const mapRef = useRef<google.maps.Map | null>(null);
-
+  const [reviewOpen, setReviewOpen] = useState(false);
 
   const handleMapReady = (map: google.maps.Map) => {
     mapRef.current = map;
@@ -283,24 +290,46 @@ function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
           </div>
         </section>
 
-                {/* ===== 口コミ ===== */}
+        {/* ===== 口コミ ===== */}
         <section className="w-full px-4 py-8">
           <SectionDivider />
           <SectionHeading title="口コミ" />
           <SubHeading title="ホットペッパーの口コミをご覧ください" />
           <BodyText>当店は整体サロンです。ホットペッパーで沢山の口コミを頂いていますのでご確認ください。</BodyText>
 
-          {/* 「口コミを見る」ボタン - ホットペッパービューティー口コミページへ直接リンク */}
+          {/* 「口コミを見る」ボタン - アコーディオン展開 */}
           <div className="mt-5 flex justify-center">
-            <a
-              href={REVIEW_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => setReviewOpen(!reviewOpen)}
               className="inline-flex items-center gap-2 bg-white border border-[#acacac] rounded-lg px-10 py-2 text-[#898989] text-[17px] font-bold hover:bg-gray-50 transition-colors"
             >
-              口コミを見る
-            </a>
+              {reviewOpen ? "口コミを閉じる ▲" : "口コミを見る ▼"}
+            </button>
           </div>
+
+          {/* アコーディオン展開エリア */}
+          {reviewOpen && (
+            <div className="mt-4 w-full rounded-lg overflow-hidden border border-neutral-200 shadow-sm">
+              <div className="bg-gray-50 px-4 py-2 flex items-center justify-between border-b border-neutral-200">
+                <span className="text-sm text-[#736357]">ホットペッパービューティー 口コミページ</span>
+                <a
+                  href={REVIEW_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-[#bf1391] hover:underline"
+                >
+                  別タブで開く ↗
+                </a>
+              </div>
+              <iframe
+                src={REVIEW_URL}
+                title="ホットペッパービューティー 口コミ"
+                className="w-full"
+                style={{ height: "600px", border: "none" }}
+                loading="lazy"
+              />
+            </div>
+          )}
         </section>
 
         {/* ===== ３つのこだわり ===== */}
@@ -470,11 +499,11 @@ function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
           <CTABlock onNavigate={onNavigate} />
         </div>
 
-                {/* ===== 当店のダイエットが成功する理由 ===== */}
+        {/* ===== 当店のダイエットが成功する理由 ===== */}
         <section className="w-full px-4 py-8">
           <h2 className="text-[#f39f88] text-[32px] font-semibold mb-6">当店のダイエットが成功する理由</h2>
 
-          {/* 理由１ - outline枠線付き（Figmaデザイン準拠） */}
+          {/* 理由１ - 枠線付き */}
           <div className="mb-6 rounded border-2 border-neutral-200 overflow-hidden">
             <div className="px-5 pt-6 pb-2">
               <p className="text-[#f39f88] text-[26px] font-semibold">理由１：太った理由を徹底分析</p>
@@ -487,8 +516,8 @@ function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
             </div>
           </div>
 
-          {/* 理由２ - 枠線なし */}
-          <div className="mb-6 rounded overflow-hidden">
+          {/* 理由２ - 枠線付き */}
+          <div className="mb-6 rounded border-2 border-neutral-200 overflow-hidden">
             <div className="px-5 pt-6 pb-2">
               <p className="text-[#f39f88] text-[26px] font-semibold">理由２：痩身整体で生涯太りにくい体質作り</p>
             </div>
@@ -500,8 +529,8 @@ function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
             </div>
           </div>
 
-          {/* 理由３ - 枠線なし */}
-          <div className="mb-6 rounded overflow-hidden">
+          {/* 理由３ - 枠線付き */}
+          <div className="mb-6 rounded border-2 border-neutral-200 overflow-hidden">
             <div className="px-5 pt-6 pb-2">
               <p className="text-[#f39f88] text-[26px] font-semibold">理由３：マンツーマン食事サポート</p>
             </div>
@@ -513,15 +542,20 @@ function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
             </div>
           </div>
 
-          {/* 理由４ - 枠線なし */}
-          <div className="mb-6">
-            <p className="text-[#f39f88] text-[26px] font-semibold mb-4">理由４：国家資格の柔道整復師を所有。だから安心！</p>
-            <div className="flex justify-center py-3">
+          {/* 理由４ - 枠線付き */}
+          <div className="mb-6 rounded border-2 border-neutral-200 overflow-hidden">
+            <div className="px-5 pt-6 pb-2">
+              <p className="text-[#f39f88] text-[26px] font-semibold">理由４：国家資格の柔道整復師を所有。だから安心！</p>
+            </div>
+            <div className="flex justify-center px-4 py-3">
               <img src={ASSETS["62-3"]} alt="理由４国家資格" className="w-[400px] max-w-full h-auto object-cover" />
             </div>
-            <BodyText>体の構造を知り尽くした、プロの整体師の証である「国家資格：柔道整復師」。<br />安心してダイエットを任せることができます。</BodyText>
+            <div className="px-5 pb-6">
+              <BodyText>体の構造を知り尽くした、プロの整体師の証である「国家資格：柔道整復師」。<br />安心してダイエットを任せることができます。</BodyText>
+            </div>
           </div>
         </section>
+
         {/* ===== CTA 3 ===== */}
         <div className="px-4">
           <CTABlock onNavigate={onNavigate} />
@@ -536,58 +570,120 @@ function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
   );
 }
 
-// LINE page component
+// LINE QRコードページ
 function LinePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
   return (
     <div className="min-h-screen bg-white flex flex-col" style={{ fontFamily: "'Noto Sans JP', sans-serif" }}>
-      <div className="max-w-[700px] mx-auto w-full flex-1 px-4 py-8">
+      {/* ヘッダーバー */}
+      <div className="w-full bg-[#4dce6e] px-4 py-3 flex items-center gap-3">
         <button
           onClick={() => onNavigate("home")}
-          className="mb-6 text-[#4dce6e] font-semibold hover:underline"
+          className="text-white font-semibold flex items-center gap-1 hover:opacity-80 transition-opacity"
         >
-          ← ホームに戻る
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          戻る
         </button>
-        <h1 className="text-[#f39f88] text-3xl font-bold mb-4">LINE講座</h1>
-        <p className="text-[#736357] text-base mb-6">
-          1週間で痩せ体質を作る無料講座をLINEでお届けします。
+        <span className="text-white font-bold text-lg">LINE友だち追加</span>
+      </div>
+
+      <div className="max-w-[480px] mx-auto w-full flex-1 px-6 py-10 flex flex-col items-center">
+        {/* LINE ロゴ＆タイトル */}
+        <div className="flex items-center gap-3 mb-2">
+          <div className="w-12 h-12 bg-[#4dce6e] rounded-xl flex items-center justify-center">
+            <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
+            </svg>
+          </div>
+          <div>
+            <p className="text-[#3a3a3a] font-bold text-xl">美容整体サロン vivari</p>
+            <p className="text-[#736357] text-sm">LINE公式アカウント</p>
+          </div>
+        </div>
+
+        <p className="text-[#f39f88] text-2xl font-bold mt-6 mb-2 text-center">
+          1週間で痩せ体質を作る<br />無料講座をプレゼント中🎁
         </p>
+        <p className="text-[#736357] text-base text-center mb-8">
+          QRコードをスキャンするか、<br />下のボタンからLINEを開いてください
+        </p>
+
+        {/* QRコード */}
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-neutral-100">
+          <img
+            src={ASSETS["line-qr"]}
+            alt="LINE QRコード"
+            className="w-56 h-56 object-contain"
+          />
+        </div>
+
+        {/* LINEで開くボタン */}
         <a
           href={LINE_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block bg-[#4dce6e] text-white font-semibold px-8 py-3 rounded hover:opacity-90 transition-opacity"
+          className="flex items-center justify-center gap-3 bg-[#4dce6e] text-white font-bold text-lg rounded-xl px-10 py-4 w-full max-w-[320px] hover:opacity-90 transition-opacity shadow-md"
         >
-          LINEで講座を受け取る
+          <svg className="w-6 h-6 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
+          </svg>
+          LINEで友だち追加
         </a>
+
+        <p className="text-[#736357] text-sm mt-4 text-center">
+          ※ LINEアプリが開きます
+        </p>
+
+        {/* 戻るボタン */}
+        <button
+          onClick={() => onNavigate("home")}
+          className="mt-8 text-[#736357] text-sm hover:underline"
+        >
+          ← ランディングページに戻る
+        </button>
       </div>
     </div>
   );
 }
 
-// HPB page component
+// HPBページ（ホットペッパービューティー予約）
 function HpbPage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
   return (
     <div className="min-h-screen bg-white flex flex-col" style={{ fontFamily: "'Noto Sans JP', sans-serif" }}>
-      <div className="max-w-[700px] mx-auto w-full flex-1 px-4 py-8">
+      {/* ヘッダーバー */}
+      <div className="w-full bg-[#bf1391] px-4 py-3 flex items-center gap-3 flex-shrink-0">
         <button
           onClick={() => onNavigate("home")}
-          className="mb-6 text-[#bf1391] font-semibold hover:underline"
+          className="text-white font-semibold flex items-center gap-1 hover:opacity-80 transition-opacity"
         >
-          ← ホームに戻る
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          戻る
         </button>
-        <h1 className="text-[#f39f88] text-3xl font-bold mb-4">ホットペッパービューティーで予約</h1>
-        <p className="text-[#736357] text-base mb-6">
-          ホットペッパービューティーから予約できます。
-        </p>
+        <span className="text-white font-bold text-lg">ホットペッパービューティーで予約</span>
         <a
           href={HPB_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block bg-[#bf1391] text-white font-semibold px-8 py-3 rounded hover:opacity-90 transition-opacity"
+          className="ml-auto text-white/80 text-xs hover:text-white flex items-center gap-1"
         >
-          ホットペッパービューティーで予約する
+          別タブで開く
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
         </a>
       </div>
+
+      {/* iFrame */}
+      <iframe
+        src={HPB_URL}
+        title="ホットペッパービューティー 予約"
+        className="w-full flex-1"
+        style={{ border: "none", minHeight: "calc(100vh - 52px)" }}
+        loading="lazy"
+      />
     </div>
   );
 }
