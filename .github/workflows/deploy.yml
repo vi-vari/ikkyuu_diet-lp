@@ -29,7 +29,7 @@ jobs:
         run: pnpm install
 
       - name: Build
-        run: pnpm run build:pages
+        run: VITE_BASE_PATH=/ikkyuu-diet-lp/ pnpm run build:pages
         env:
           VITE_BASE_PATH: /ikkyuu-diet-lp/
 
