@@ -324,7 +324,7 @@ function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
 
           {/* スタッフ：安東 */}
           <div className="mb-10 mt-4">
-            <SubHeading title="スタッフ：安東" />
+            <SubHeading title="スタッフ：安東　愛望" />
             <div className="flex justify-center my-5">
               <div className="w-44 h-44 rounded-full overflow-hidden border-2 border-[#f39f88]/20">
                 <img
@@ -362,8 +362,8 @@ function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
               </div>
             </div>
             <div className="mt-3 space-y-1">
-              <ListItem>キャリア9年</ListItem>
-              <ListItem>国家資格：柔道整復師 所有</ListItem>
+              <ListItem>キャリア10年以上</ListItem>
+              <ListItem>国家資格：柔道整復師所有</ListItem>
             </div>
             <div className="mt-3">
               <BodyText>
@@ -387,14 +387,14 @@ function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
               </div>
             </div>
             <div className="mt-3 space-y-1">
-              <ListItem>キャリア20年</ListItem>
+              <ListItem>キャリア20年以上</ListItem>
               <ListItem>国家資格：柔道整復師・はり / きゅう師所有</ListItem>
             </div>
             <div className="mt-3">
               <BodyText>
-                「練習と同じくらいメンテナンスが大切」を理念に、皆様の健康をサポートしています。<br />
-                身体が変わっていくプロセスを一緒に楽しみながら、理想の自分を手に入れましょう。<br />
-                お客様一人ひとりのお悩みに寄り添い、今よりさらに良くなるためのお手伝いをさせていただきます。どうぞお気軽にご相談ください。
+                私はかつて競輪選手を目指していました。<br />
+                プロにはなれませんでしたが、その経験から身体のメンテナンスの大切さを学びました。<br />
+                特に、師匠から教わった「練習と同じくらいメンテナンスが大切」という教えは、今では私の治療理念となっており、皆様の健康をサポートしています。身体が変わっていくプロセスを一緒に楽しみながら、理想の自分を手に入れましょう。お客様一人ひとりのお悩みに寄り添い、今よりさらに良くなるためのお手伝いをさせていただきます。どうぞお気軽にご相談ください。
               </BodyText>
             </div>
           </div>
