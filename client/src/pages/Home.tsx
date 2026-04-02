@@ -45,7 +45,7 @@ const ASSETS: Record<string, string> = {
   // ２ショット写真（row2, col4 = 右端真ん中）
   "photo2shot": `${CDN}/２ショット_f3f1a6ef.png`,
   // 新しい２ショット写真（row2, col4に使用）
-  "photo2shot2": `https://d2xsxph8kpxj0f.cloudfront.net/310519663410806327/JA5n7xr5WMnAweWKrFvH5o/２ショット_6c446dbb.png`,
+  "photo2shot2": `https://d2xsxph8kpxj0f.cloudfront.net/310519663410806327/JA5n7xr5WMnAweWKrFvH5o/staff-shot_54c0bb18.png`,
   // こだわりセクション
   "39-106": `${CDN}/39-106_483b2125.webp`,
   "39-111": `${CDN}/39-111_4a617ff1.webp`,
@@ -80,7 +80,7 @@ const ASSETS: Record<string, string> = {
   // 国家資格
   "62-3":   `${CDN}/62-3_5da58225.webp`,
   // 64-xxx SNS口コミ写真
-  "64-16":  `${CDN}/64-16_dbc7426a.webp`,
+  "64-16":  `https://d2xsxph8kpxj0f.cloudfront.net/310519663410806327/JA5n7xr5WMnAweWKrFvH5o/staff-ando_0840d36f.png`,
   "64-17":  `${CDN}/64-17_484dc6f0.webp`,
   "64-18":  `${CDN}/64-18_071344e8.webp`,
   "64-19":  `${CDN}/64-19_779bb574.webp`,
@@ -322,27 +322,27 @@ function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
           <SectionDivider />
           <SectionHeading title="スタッフ紹介" />
 
-          {/* スタッフ：安東 */}
+          {/* 院長：池本 有佑 */}
           <div className="mb-10 mt-4">
-            <SubHeading title="スタッフ：安東　愛望" />
+            <SubHeading title="院長：池本　有佑" />
             <div className="flex justify-center my-5">
-              <div className="w-44 h-44 rounded-full overflow-hidden border-2 border-[#f39f88]/20">
+              <div className="w-44 h-44 rounded-full overflow-hidden bg-[#d9d9d9]">
                 <img
-                  src={ASSETS["39-128"]}
-                  alt="スタッフ 安東"
+                  src={ASSETS["44-290"]}
+                  alt="院長 池本有佑"
                   className="w-full h-full object-cover object-top"
                 />
               </div>
             </div>
             <div className="mt-3 space-y-1">
-              <ListItem>21歳</ListItem>
-              <ListItem>国家資格：柔道整復師所有</ListItem>
+              <ListItem>キャリア20年以上</ListItem>
+              <ListItem>国家資格：柔道整復師・はり / きゅう師所有</ListItem>
             </div>
             <div className="mt-3">
               <BodyText>
-                「女性がキレイで自分らしくなれる美容整体」をご提供します。<br />
-                お子様連れでもご安心いただけます。女性特有のお悩みをお気軽にご相談ください。<br />
-                優しい施術とカウンセリングが、お客様から喜ばれております。
+                私はかつて競輪選手を目指していました。<br />
+                プロにはなれませんでしたが、その経験から身体のメンテナンスの大切さを学びました。<br />
+                特に、師匠から教わった「練習と同じくらいメンテナンスが大切」という教えは、今では私の治療理念となっており、皆様の健康をサポートしています。身体が変わっていくプロセスを一緒に楽しみながら、理想の自分を手に入れましょう。お客様一人ひとりのお悩みに寄り添い、今よりさらに良くなるためのお手伝いをさせていただきます。どうぞお気軽にご相談ください。
               </BodyText>
             </div>
           </div>
@@ -374,27 +374,27 @@ function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
 
           <SectionDivider />
 
-          {/* 院長：池本 有佑 */}
+          {/* スタッフ：安東 */}
           <div className="mb-10">
-            <SubHeading title="院長：池本　有佑" />
+            <SubHeading title="スタッフ：安東　愛望" />
             <div className="flex justify-center my-5">
-              <div className="w-44 h-44 rounded-full overflow-hidden bg-[#d9d9d9]">
+              <div className="w-44 h-44 rounded-full overflow-hidden border-2 border-[#f39f88]/20">
                 <img
-                  src={ASSETS["44-290"]}
-                  alt="院長 池本有佑"
+                  src={ASSETS["39-128"]}
+                  alt="スタッフ 安東"
                   className="w-full h-full object-cover object-top"
                 />
               </div>
             </div>
             <div className="mt-3 space-y-1">
-              <ListItem>キャリア20年以上</ListItem>
-              <ListItem>国家資格：柔道整復師・はり / きゅう師所有</ListItem>
+              <ListItem>21歳</ListItem>
+              <ListItem>国家資格：柔道整復師所有</ListItem>
             </div>
             <div className="mt-3">
               <BodyText>
-                私はかつて競輪選手を目指していました。<br />
-                プロにはなれませんでしたが、その経験から身体のメンテナンスの大切さを学びました。<br />
-                特に、師匠から教わった「練習と同じくらいメンテナンスが大切」という教えは、今では私の治療理念となっており、皆様の健康をサポートしています。身体が変わっていくプロセスを一緒に楽しみながら、理想の自分を手に入れましょう。お客様一人ひとりのお悩みに寄り添い、今よりさらに良くなるためのお手伝いをさせていただきます。どうぞお気軽にご相談ください。
+                「女性がキレイで自分らしくなれる美容整体」をご提供します。<br />
+                お子様連れでもご安心いただけます。女性特有のお悩みをお気軽にご相談ください。<br />
+                優しい施術とカウンセリングが、お客様から喜ばれております。
               </BodyText>
             </div>
           </div>
@@ -434,10 +434,9 @@ function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
         {/* ===== BOOK特典 1 ===== */}
         <section className="w-full px-4 py-6 flex justify-center">
           <img
-            src={ASSETS["44-282"]}
+            src="https://d2xsxph8kpxj0f.cloudfront.net/310519663410806327/JA5n7xr5WMnAweWKrFvH5o/book-replace_a9cfeb85.png"
             alt="BOOK特典 1週間で痩せ体質になるダイエット"
-            className="w-[280px] h-auto object-contain"
-            style={{ transform: "rotate(3deg)" }}
+            className="w-full max-w-[650px] h-auto object-contain"
           />
         </section>
 
@@ -510,7 +509,7 @@ function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
 
         {/* Footer */}
         <footer className="w-full px-4 py-8 border-t border-gray-200 text-center">
-          <p className="text-[#736357] text-sm">© 2026 美容整体サロン vivari. All rights reserved.</p>
+          <p className="text-[#736357] text-sm">© いっきゅう整体院 All rights reserved.</p>
         </footer>
       </div>
     </div>
