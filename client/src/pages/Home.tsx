@@ -335,8 +335,9 @@ function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
               </div>
             </div>
             <div className="mt-3 space-y-1">
+              <ListItem>48歳</ListItem>
               <ListItem>キャリア20年以上</ListItem>
-              <ListItem>国家資格：柔道整復師・はり / きゅう師所有</ListItem>
+              <ListItem>国家資格：柔道整復師・鍼灸師所有</ListItem>
             </div>
             <div className="mt-3">
               <BodyText>
@@ -362,6 +363,7 @@ function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
               </div>
             </div>
             <div className="mt-3 space-y-1">
+              <ListItem>31歳</ListItem>
               <ListItem>キャリア10年以上</ListItem>
               <ListItem>国家資格：柔道整復師所有</ListItem>
             </div>
