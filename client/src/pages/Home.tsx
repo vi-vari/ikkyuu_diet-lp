@@ -336,7 +336,7 @@ function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
             </div>
             <div className="mt-3 space-y-1">
               <ListItem>21歳</ListItem>
-              <ListItem>柔道整復師</ListItem>
+              <ListItem>国家資格：柔道整復師所有</ListItem>
             </div>
             <div className="mt-3">
               <BodyText>
