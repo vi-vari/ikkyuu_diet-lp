@@ -1,0 +1,69 @@
+name: Fetch Figma assets
+
+# Figma から書き出した画像を取り込むための一時的なワークフロー。
+# このセッションの実行環境は www.figma.com への通信が許可されていないため、
+# 通信制限のない Actions ランナー側でダウンロードして client/public/images/ に取り込む。
+# scripts/figma-assets.json に書かれた URL は短時間で失効するので、
+# 取り込みが済んだらこのワークフローと JSON はまとめて削除する。
+on:
+  push:
+    branches:
+      - claude/fix-lp-image-display-q7nat2
+    paths:
+      - 'scripts/figma-assets.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fetch-figma-assets
+  cancel-in-progress: true
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install webp encoder
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq webp
+
+      - name: Download and convert
+        timeout-minutes: 10
+        run: |
+          set -euo pipefail
+          mkdir -p client/public/images
+          fail=0
+          # 一覧は [{ "file": "fv.webp", "url": "https://..." }, ...]
+          while IFS=$'\t' read -r file url; do
+            tmp="$(mktemp /tmp/figma-XXXXXX.png)"
+            if ! curl -fsSL --max-time 120 -o "$tmp" "$url"; then
+              echo "FAIL  $file (ダウンロードできませんでした)"
+              fail=1
+              continue
+            fi
+            case "$file" in
+              # Figma からは PNG で降ってくるので、webp 指定のものだけ変換する
+              *.webp) cwebp -quiet -q 82 "$tmp" -o "client/public/images/$file" ;;
+              *)      mv "$tmp" "client/public/images/$file" ;;
+            esac
+            echo "OK    $file  $(du -h "client/public/images/$file" | cut -f1)"
+          done < <(jq -r '.[] | [.file, .url] | @tsv' scripts/figma-assets.json)
+          exit "$fail"
+
+      - name: Commit images
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # 使い終わった一時 URL の一覧は同じコミットで消す
+          rm -f scripts/figma-assets.json
+          git add client/public/images scripts
+          if git diff --cached --quiet; then
+            echo "取り込む画像に変更はありません。"
+            exit 0
+          fi
+          git commit -m "chore: Figmaから書き出した画像を取り込み [skip ci]"
+          git push origin HEAD:${GITHUB_REF_NAME}

@@ -52,7 +52,7 @@ const ASSETS: Record<string, string> = {
   "39-256":     `${IMG}/reason-02.webp`,  // 成功する理由２：痩身整体（施術写真）
   "39-261":     `${IMG}/reason-03.webp`,  // 成功する理由３：マンツーマン食事サポート（食事写真）
   "62-3":       `${IMG}/reason-04.webp`,  // 成功する理由４：国家資格 柔道整復師
-  "book":       `${IMG}/book.png`,  // BOOK特典「1週間で痩せ体質になるダイエット」の書影
+  "book":       `${IMG}/book.webp`,  // BOOK特典「1週間で痩せ体質になるダイエット」の書影
   "line-qr":    `${IMG}/line-qr.png`,  // LINE友だち追加ページのQRコード
 };
 
