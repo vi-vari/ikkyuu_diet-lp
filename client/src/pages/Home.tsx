@@ -3,7 +3,7 @@
  * Design: Figma 1920w light - pixel-perfect reproduction
  * Colors: #f39f88 (accent/heading), #4b4f58 (subheading), #736357 (body), #3a3a3a (dark text)
  * CTA LINE: https://lin.ee/XoPtWqp (QR code page)
- * CTA HPB: https://beauty.hotpepper.jp/kr/slnH000719702/ (iframe page)
+ * CTA HPB: https://beauty.hotpepper.jp/CSP/kr/reserve/?storeId=H000719702&couponId=CP00000012675303&add=0&rootCd=10 (iframe page)
  * 口コミ: https://beauty.hotpepper.jp/kr/slnH000719702/review/ (accordion)
  * Map address: 兵庫県西宮市門戸東町２－４ファミリアル門戸103
  */
@@ -57,8 +57,8 @@ const ASSETS: Record<string, string> = {
 };
 
 const LINE_URL = "https://lin.ee/XoPtWqp";
-const HPB_URL = "https://beauty.hotpepper.jp/kr/slnH000719702/";
-const IKKYUU_URL = "https://beauty.hotpepper.jp/kr/slnH000719702/";
+const HPB_URL = "https://beauty.hotpepper.jp/CSP/kr/reserve/?storeId=H000719702&couponId=CP00000012675303&add=0&rootCd=10";
+const IKKYUU_URL = "https://beauty.hotpepper.jp/CSP/kr/reserve/?storeId=H000719702&couponId=CP00000012675303&add=0&rootCd=10";
 
 
 // Page types
