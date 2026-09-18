@@ -92,7 +92,7 @@ function CTABlock({ onNavigate }: { onNavigate: (page: PageType) => void }) {
         ホットペッパーで予約する
       </a>
       <p className="text-[#3a3a3a] text-sm text-center">今すぐ予約したい方はこちらからどうぞ</p>
-      <p className="text-[#3a3a3a] text-sm text-center">ダイエットカウンセリングが初回限定1980円🎉</p>
+      <p className="text-[#3a3a3a] text-sm text-center">ダイエットカウンセリング＆美容整体が初回限定1980円🎉</p>
     </div>
   );
 }
@@ -471,7 +471,7 @@ function HomePage({ onNavigate }: { onNavigate: (page: PageType) => void }) {
 
         {/* Footer */}
         <footer className="w-full px-4 py-8 border-t border-gray-200 text-center">
-          <p className="text-[#736357] text-sm">© いっきゅう整体院 All rights reserved.</p>
+          <p className="text-[#736357] text-sm">© 2026 いっきゅう整体院. All rights reserved.</p>
         </footer>
       </div>
     </div>
