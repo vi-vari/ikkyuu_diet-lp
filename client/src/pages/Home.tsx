@@ -109,7 +109,7 @@ function CTABlock({ onNavigate }: { onNavigate: (page: PageType) => void }) {
           />
         </a>
       </div>
-      <p className="text-[#3a3a3a] text-[15px] text-center">1週間で痩せ体質を作る無料講座をプレゼント中🎁</p>
+      <p className="text-[#3a3a3a] text-[18px] text-center">1週間で痩せ体質を作る無料講座をプレゼント中🎁</p>
       <div className="w-full min-[700px]:w-[calc(100%+2rem)] min-[700px]:-mx-4 max-w-[700px] pl-[4px] flex items-center gap-[1.2%]">
         <CtaArrow />
         <a
@@ -128,8 +128,8 @@ function CTABlock({ onNavigate }: { onNavigate: (page: PageType) => void }) {
           />
         </a>
       </div>
-      <p className="text-[#3a3a3a] text-sm text-center">今すぐ予約したい方はこちらからどうぞ</p>
-      <p className="text-[#3a3a3a] text-sm text-center">ダイエットカウンセリング＆美容整体が初回限定1980円🎉</p>
+      <p className="text-[#3a3a3a] text-[18px] text-center">今すぐ予約したい方はこちらからどうぞ</p>
+      <p className="text-[#3a3a3a] text-[18px] text-center">ダイエットカウンセリング＆美容整体が初回限定1980円🎉</p>
     </div>
   );
 }
