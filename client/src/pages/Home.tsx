@@ -109,7 +109,11 @@ function CTABlock({ onNavigate }: { onNavigate: (page: PageType) => void }) {
           />
         </a>
       </div>
-      <p className="text-[#3a3a3a] text-[18px] text-center">1週間で痩せ体質を作る無料講座をプレゼント中🎁</p>
+      <p className="text-[#3a3a3a] text-[18px] text-center leading-relaxed">
+        <span className="inline-block">1週間で痩せ体質を作る</span>
+        <br className="sm:hidden" />
+        <span className="inline-block">無料講座をプレゼント中🎁</span>
+      </p>
       <div className="w-full min-[700px]:w-[calc(100%+2rem)] min-[700px]:-mx-4 max-w-[700px] pl-[4px] flex items-center gap-[1.2%]">
         <CtaArrow />
         <a
@@ -128,8 +132,16 @@ function CTABlock({ onNavigate }: { onNavigate: (page: PageType) => void }) {
           />
         </a>
       </div>
-      <p className="text-[#3a3a3a] text-[18px] text-center">今すぐ予約したい方はこちらからどうぞ</p>
-      <p className="text-[#3a3a3a] text-[18px] text-center">ダイエットカウンセリング＆美容整体が初回限定1980円🎉</p>
+      <p className="text-[#3a3a3a] text-[18px] text-center leading-relaxed">
+        <span className="inline-block">今すぐ予約したい方は</span>
+        <span className="inline-block">こちらからどうぞ</span>
+      </p>
+      <p className="text-[#3a3a3a] text-[18px] text-center leading-relaxed">
+        <span className="inline-block">ダイエットカウンセリング</span>
+        <span className="inline-block">＆美容整体が</span>
+        <br className="sm:hidden" />
+        <span className="inline-block">初回限定1980円🎉</span>
+      </p>
     </div>
   );
 }
