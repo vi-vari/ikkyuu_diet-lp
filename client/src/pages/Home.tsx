@@ -54,6 +54,8 @@ const ASSETS: Record<string, string> = {
   "62-3":       `${IMG}/reason-04.webp`,  // 成功する理由４：国家資格 柔道整復師
   "book":       `${IMG}/book.webp`,  // BOOK特典「1週間で痩せ体質になるダイエット」の書影
   "line-qr":    `${IMG}/line-qr.png`,  // LINE友だち追加ページのQRコード
+  "cta-line":   `${IMG}/cta-line.webp`,  // CTAボタン画像「LINE登録者限定 LINE講座をスタート」
+  "cta-hpb":    `${IMG}/cta-hotpepper.webp`,  // CTAボタン画像「ホットペッパーで予約する」
 };
 
 const LINE_URL = "https://lin.ee/XoPtWqp";
@@ -64,33 +66,68 @@ const IKKYUU_URL = "https://beauty.hotpepper.jp/CSP/kr/reserve/?storeId=H0007197
 // Page types
 type PageType = "home" | "line" | "hpb";
 
+// CTAボタン左の金色矢印。点滅アニメーションは index.css の .cta-arrow に定義。
+function CtaArrow() {
+  return (
+    <svg
+      className="cta-arrow shrink-0 w-[7.2%] min-w-[26px] h-auto aspect-[55/59] drop-shadow-[1px_2px_1px_rgba(0,0,0,0.15)]"
+      viewBox="0 0 55 59"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <defs>
+        <linearGradient id="cta-arrow-gold" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#FFDC1D" />
+          <stop offset="100%" stopColor="#FFBD1C" />
+        </linearGradient>
+      </defs>
+      <path d="M4 13 H32 V5 L53 29.5 L32 54 V46 H4 Z" fill="url(#cta-arrow-gold)" />
+    </svg>
+  );
+}
+
 // CTA Block component (reused multiple times)
+// ボタンは画像（client/public/images/cta-*.webp）。矢印を含めて最大幅700px。
 function CTABlock({ onNavigate }: { onNavigate: (page: PageType) => void }) {
   return (
     <div className="w-full py-8 flex flex-col items-center gap-2">
-      <a
-        href={LINE_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center justify-center gap-3 bg-[#4dce6e] text-white font-semibold text-xl rounded-[3px] px-8 py-3 w-full max-w-[321px] hover:opacity-90 transition-opacity"
-      >
-        <svg className="w-6 h-6 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
-        </svg>
-        LINE講座をスタート
-      </a>
+      <div className="w-full min-[700px]:w-[calc(100%+2rem)] min-[700px]:-mx-4 max-w-[700px] pl-[4px] flex items-center gap-[1.2%]">
+        <CtaArrow />
+        <a
+          href={LINE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-1 min-w-0 block hover:brightness-[1.04] active:brightness-95 transition"
+          style={{ textDecoration: "none" }}
+        >
+          <img
+            src={ASSETS["cta-line"]}
+            alt="LINE登録者限定 LINE講座をスタート"
+            width={850}
+            height={180}
+            className="block w-full h-auto"
+          />
+        </a>
+      </div>
       <p className="text-[#3a3a3a] text-[15px] text-center">1週間で痩せ体質を作る無料講座をプレゼント中🎁</p>
-      <a
-        href={HPB_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center justify-center gap-3 bg-[#bf1391] text-white font-semibold text-xl rounded-[3px] px-8 py-3 w-full max-w-[392px] hover:opacity-90 transition-opacity"
-      >
-        <svg className="w-6 h-6 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/>
-        </svg>
-        ホットペッパーで予約する
-      </a>
+      <div className="w-full min-[700px]:w-[calc(100%+2rem)] min-[700px]:-mx-4 max-w-[700px] pl-[4px] flex items-center gap-[1.2%]">
+        <CtaArrow />
+        <a
+          href={HPB_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-1 min-w-0 block hover:brightness-[1.04] active:brightness-95 transition"
+          style={{ textDecoration: "none" }}
+        >
+          <img
+            src={ASSETS["cta-hpb"]}
+            alt="ホットペッパーで予約する"
+            width={741}
+            height={152}
+            className="block w-full h-auto"
+          />
+        </a>
+      </div>
       <p className="text-[#3a3a3a] text-sm text-center">今すぐ予約したい方はこちらからどうぞ</p>
       <p className="text-[#3a3a3a] text-sm text-center">ダイエットカウンセリング＆美容整体が初回限定1980円🎉</p>
     </div>
